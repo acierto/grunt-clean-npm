@@ -1,19 +1,2 @@
-# JavaScript Generated & Downloaded Resources
-src/main/resources/web/libs
-src/main/resources/web/register/libs
-src/main/resources/web/distWizards
-
-# Deployit server
-repository/repository
-repository/version
-repository/workspaces
-hotfix/plugins
-.lock
-work/
-!repository-to-copy/repository-setup/repository
-conf/deployit.conf
-recovery.dat
-deployit-server.out
-deployit-server.err
-recovery.tmp
-
+.idea/
+node_modules/
