@@ -51,9 +51,11 @@ module.exports = function (grunt) {
     grunt.registerTask('test', [
         'clean',
         'mkdir:tmp/node_modules',
+        'write:tmp/node_modules/someLib.js:{}',
         'write:tmp/package.json:{ "name"\\: "for-test", "devDependencies"\\: { "adm-zip"\\: "0.4.7" } }',
         'chdir:tmp',
-        'clean-node-modules',
+        'remove-node-modules',
+        'generate-hash',
         'chdir:' + process.cwd().replace(/[A-Za-z]:\\/, '/'),
         'nodeunit',
         'clean'

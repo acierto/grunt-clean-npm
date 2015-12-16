@@ -10,44 +10,40 @@
 
 module.exports = function (grunt) {
 
+    var path = require('path');
     var sha1 = require('sha1');
 
     var originFile = 'package.json';
-    var md5FileName = originFile + '.md5';
-    var folderToRemove = 'node_modules';
+    var nodeModules = 'node_modules';
+    var md5FileName = path.join(nodeModules, originFile + '.md5');
 
-    grunt.registerTask('clean-node-modules', 'Clean node modules.', function () {
+    function getCurrentHash() {
+        var json = grunt.file.readJSON(originFile);
+        var devDependencies = JSON.stringify(json.devDependencies);
+        var dependencies = JSON.stringify(json.dependencies);
+        return sha1(devDependencies + dependencies);
+    }
 
-        function execute(hash) {
-            createUpdateMd5File(hash);
-            removeNodeModules();
-        }
+    grunt.registerTask('generate-hash', 'Generate a hash code based on dependencies.', function () {
+        grunt.file.write(md5FileName, getCurrentHash());
+    });
+
+    grunt.registerTask('remove-node-modules', 'Clean node modules.', function () {
 
         function removeNodeModules() {
-            if (grunt.file.exists(folderToRemove)) {
-                grunt.file.delete(folderToRemove);
+            if (grunt.file.exists(nodeModules)) {
+                grunt.file.delete(nodeModules);
             }
-        }
-
-        function getCurrentHash() {
-            var json = grunt.file.readJSON(originFile);
-            var devDependencies = JSON.stringify(json.devDependencies);
-            var dependencies = JSON.stringify(json.dependencies);
-            return sha1(devDependencies + dependencies);
-        }
-
-        function createUpdateMd5File(hash) {
-            grunt.file.write(md5FileName, hash);
         }
 
         if (grunt.file.exists(md5FileName)) {
             var oldHash = grunt.file.read(md5FileName);
             var currentHash = getCurrentHash();
             if (oldHash !== currentHash) {
-                execute(currentHash);
+                removeNodeModules();
             }
         } else {
-            execute(getCurrentHash());
+            removeNodeModules();
         }
 
     });

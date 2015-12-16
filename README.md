@@ -22,8 +22,24 @@ grunt.loadNpmTasks('grunt-clean-npm');
 
 ## Using grunt-clean-npm
 
+It consists of 2 tasks, first one removes the node_modules if md5 wasn't generated yet or md5 is different.
+
 ```shell
-grunt grunt-clean-npm
+grunt remove-node-modules
+```
+
+the second one generates the hash inside of node_modules.
+
+```shell
+grunt generate-hash
+```
+
+So my advice to use it in the next order:
+
+```shell
+grunt remove-node-modules
+grunt npm-install
+grunt generate-hash
 ```
 
 # How it works
