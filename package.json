@@ -1,7 +1,7 @@
 {
   "name": "grunt-clean-npm",
   "description": "Cleans node_module for the local project when there was any changes in package.json dependencies or devDependencies",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "homepage": "https://github.com/acierto/grunt-clean-npm",
   "author": {
     "name": "Bogdan Nechyporenko"
