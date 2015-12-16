@@ -24,8 +24,18 @@ module.exports = function (grunt) {
         return sha1(devDependencies + dependencies);
     }
 
+    function isNoHashOrModified() {
+        if (!grunt.file.exists(md5FileName)) {
+            return true;
+        }
+
+        return grunt.file.read(md5FileName) !== getCurrentHash();
+    }
+
     grunt.registerTask('generate-hash', 'Generate a hash code based on dependencies.', function () {
-        grunt.file.write(md5FileName, getCurrentHash());
+        if (isNoHashOrModified()) {
+            grunt.file.write(md5FileName, getCurrentHash());
+        }
     });
 
     grunt.registerTask('remove-node-modules', 'Clean node modules.', function () {
@@ -36,15 +46,8 @@ module.exports = function (grunt) {
             }
         }
 
-        if (grunt.file.exists(md5FileName)) {
-            var oldHash = grunt.file.read(md5FileName);
-            var currentHash = getCurrentHash();
-            if (oldHash !== currentHash) {
-                removeNodeModules();
-            }
-        } else {
+        if (isNoHashOrModified()) {
             removeNodeModules();
         }
-
     });
 };
