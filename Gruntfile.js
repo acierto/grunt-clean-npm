@@ -2,7 +2,7 @@
  * grunt-clean-npm
  * https://github.com/acierto/grunt-clean-npm
  *
- * Copyright (c) 2015 Bodan Nechyporenko
+ * Copyright (c) 2015 Bogdan Nechyporenko
  * Licensed under the MIT license.
  */
 
